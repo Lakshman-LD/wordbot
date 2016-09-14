@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   console.log("prinitng request object");
   console.log(req);
-  res.render('index', { title: 'Express' });
+  res.send(200);
 });
 
 module.exports = router;
