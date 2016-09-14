@@ -5,9 +5,9 @@ var router = express.Router();
 router.post('/', function(req, res, next) {
   console.log("printing request object");
   console.log("Body of request is ");
-  console.log(req.body);
+  console.log(req.body.result);
   console.log("Request is ");
-  console.log(JSON.stringify(req));
+  console.log(req.body.result[0]);
   res.send(200);
 });
 
