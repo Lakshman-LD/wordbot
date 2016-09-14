@@ -5,10 +5,11 @@ var router = express.Router();
 router.post('/', function(req, res, next) {
   console.log("printing request object");
   console.log("Body is");
-  console.log(req.body);
-  console.log(req.body.id);
-  console.log(req.body.contentType);
-  console.log(req.body.text);
+  console.log(req.body.content);
+  var content = req.body.content;
+  console.log("id"+content.id);
+  console.log("contenttype"+content.contentType);
+  console.log("text"+content.text);
   res.send(200);
 });
 
