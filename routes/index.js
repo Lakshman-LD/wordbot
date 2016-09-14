@@ -5,7 +5,8 @@ var router = express.Router();
 router.post('/', function(req, res, next) {
   console.log("printing request object");
   console.log("Body of response is ");
-  var content = req.body[0].content;
+  console.log(JSON.stringify(req.body));
+  //var content = req.body[0].content;
   console.log(content);
   console.log("id"+content.id);
   console.log("contenttype"+content.contentType);
