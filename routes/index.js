@@ -4,17 +4,17 @@ router = express.Router(),
 dictionary_main = "https://api.pearson.com/v2/dictionaries/ldoce5/entries?apikey=sMtEeSSleFLGO4ijUT8ATAwHfuPEJYLg&headword=",
 error_response = "I'm afraid I don't understand. I'm sorry!",
 error_manywords = "My Bad!. I am still young. I can only define single words for now.",
-getDefinition = function(word) {
+
+getDefinition = function(word, callback) {
 	if(word.split(" ").length > 1) {
 		return error_manywords;
 	}
-	request(dictionary_main + word, function(error, response, body) {
-		return body;
-	});
+
+	request(dictionary_main + word, callback);
 };
 
 /* GET home page. */
-router.post('/', function(req, res, next) {
+router.post('/line', function(req, res, next) {
 	// Below comments to be deleted after testing first branch merge to main
   // console.log("printing request object");
   // console.log("Body of request is ");
@@ -38,7 +38,9 @@ router.post('/', function(req, res, next) {
  	var query = querytxt.split(" ");
  	if(query.length > 1) {
  		if (query[0] === "define") {
- 			response = getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length));
+ 			response = getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), function(error, response, body){
+				console.log(body);
+			});
  		}
  	}
  }
