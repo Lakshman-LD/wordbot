@@ -70,7 +70,7 @@ router.post('/line', function(req, res, next) {
 				var def = getDefintionFromDictResponse(body);
 				console.log(def);
 				if(def) {
-					res.send("Defintion-used as a greeting when you see or meet someone         Example-Hello, John! How are you?");
+					res.send("Defintion used as a greeting when you see or meet someone      Example Hello, John! How are you?");
 				} else {
 					res.send(error_response);
 				}
