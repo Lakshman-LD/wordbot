@@ -37,9 +37,14 @@ router.post('/line', function(req, res, next) {
   // console.log(req.body.result[0]);
   var requestJson, querytext;
   // Check if Line Request has result json object
+
+  console.log("y1");
+  console.log(req.body);
   if(req.body.result) {
+  	console.log("y2");
   	var result = JSON.parse(req.body.result);
   	if(result.length > 0) {
+  		console.log("y3");
   		requestJson = result[0];
   	}
   } else {
@@ -48,6 +53,7 @@ router.post('/line', function(req, res, next) {
 
   // get query text typed by user
   if(requestJson.content &&  requestJson.content.text) {
+  	console.log("y4");
 	querytxt = requestJson.content.text;
   }
  // Initialize response to error
