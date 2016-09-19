@@ -35,11 +35,13 @@ router.post('/line', function(req, res, next) {
   // console.log(req.body.result);
   // console.log("Request is ");
   // console.log(req.body.result[0]);
-
   var requestJson, querytext;
   // Check if Line Request has result json object
-  if(req.body.result && req.body.result.length > 0) {
-  	requestJson = JSON.parse(req.body.result[0]);
+  if(req.body.result) {
+  	var result = JSON.parse(req.body.result);
+  	if(result.length > 0) {
+  		requestJson = result[0];
+  	}
   } else {
   	console.log("No result param in line's request json");
   }
