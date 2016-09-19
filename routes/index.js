@@ -39,10 +39,10 @@ router.post('/line', function(req, res, next) {
   // Check if Line Request has result json object
 
   console.log("y1");
-  console.log(req.body);
-  if(req.body.result) {
+  var body = JSON.parse(req.body);
+  if(body.result) {
   	console.log("y2");
-  	var result = JSON.parse(req.body.result);
+  	var result = req.body.result;
   	if(result.length > 0) {
   		console.log("y3");
   		requestJson = result[0];
