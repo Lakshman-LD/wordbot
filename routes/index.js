@@ -28,6 +28,28 @@ getDefintionFromDictResponse = function(body) {
 		}
 		return response;
 	}
+},
+sendResponseMessage = function(message, to) {
+	var myJSONObject = {};
+	myJSONObject.to = to;
+	myJSONObject.toChannel = "1383378250";
+	myJSONObject.eventType = "138311608800106203";
+	var content = {};
+	//set content here
+	request({
+	    url: "http://josiahchoi.com/myjson",
+	    method: "POST",
+	    json: true,
+	    headers: {
+	        "content-type": "application/json; charset=UTF-8",
+	        "X-Line-ChannelID": "1480732716",
+			"X-Line-ChannelSecret": "75ba882401bb4c4ae52123e7de5a77b1",
+			"X-Line-Trusted-User-With-ACL": "u146be2a42ebbcbf77ba0e172bf54f961"
+	    },
+	    body: myJSONObject
+	}, function (error, response, body){
+	    console.log(response);
+	});
 };
 
 /* GET home page. */
