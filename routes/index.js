@@ -46,6 +46,7 @@ router.post('/line', function(req, res, next) {
   	if(result.length > 0) {
   		console.log("y3");
   		requestJson = result[0];
+  		console.log("result" + requestJson);
   	}
   } else {
   	console.log("No result param in line's request json");
@@ -55,6 +56,7 @@ router.post('/line', function(req, res, next) {
   if(requestJson.content &&  requestJson.content.text) {
   	console.log("y4");
 	querytxt = requestJson.content.text;
+	console.log(querytxt);
   }
  // Initialize response to error
  if(querytxt) {
@@ -73,6 +75,8 @@ router.post('/line', function(req, res, next) {
  	} else {
  		res.send(error_response);
  	}
+ } else {
+ 	res.send(error_response);
  }
 });
 module.exports = router;
