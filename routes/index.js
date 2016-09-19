@@ -68,6 +68,7 @@ router.post('/line', function(req, res, next) {
  		if (query[0] === "define") {
  			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), function(error, response, body){
 				var def = getDefintionFromDictResponse(body);
+				console.log(def);
 				if(def) {
 					res.send(def);
 				} else {
