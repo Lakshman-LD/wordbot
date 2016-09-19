@@ -10,17 +10,20 @@ getDefinition = function(word, callback) {
 	if(word.split(" ").length > 1) {
 		return error_manywords;
 	}
-
+	console.log("Finding definition of " + word);
 	request(dictionary_main + word, callback);
 }, 
 getDefintionFromDictResponse = function(body) {
-	body = JSON.parse(body);
-	if(body.results && body.results.length > 0 && body.results[0].senses && body.results[0].senses.length > 0) {
-		var sense = body.results[0].senses[0], response;
+	var bodyJson = JSON.parse(body);
+	if(bodyJson.results && bodyJson.results.length > 0 && bodyJson.results[0].senses && bodyJson.results[0].senses.length > 0) {
+		console.log("y5");
+		var sense = bodyJson.results[0].senses[0], response;
 		if(sense.definition && sense.definition.length > 0) {
+			console.log("y6");
 			response = string_definition + sense.definition[0];
 		}
 		if(sense.examples && sense.examples.length > 0 && sense.examples[0].text) {
+			console.log("y7");
 			response +=  string_example + sense.examples[0].text;
 		}
 		return response;
