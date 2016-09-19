@@ -38,8 +38,10 @@ router.post('/line', function(req, res, next) {
 
   var requestJson, querytext;
   // Check if Line Request has result json object
-  if(req.body.result) {
-  	requestJson = JSON.parse(req.body.result);
+  if(req.body.result && req.body.result.length > 0) {
+  	requestJson = JSON.parse(req.body.result[0]);
+  } else {
+  	console.log("No result param in line's request json");
   }
 
   // get query text typed by user
