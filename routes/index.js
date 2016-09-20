@@ -1,7 +1,7 @@
 var express = require('express'),
 request =  require('request'),
 router = express.Router(),
-dictionary_main = "https://api.pearson.com/v2/dictionaries/ldoce5/entries?apikey=sMtEeSSleFLGO4ijUT8ATAwHfuPEJYLg&limit=1&part_of_speech=noun&headword=",
+dictionary_main = "https://api.pearson.com/v2/dictionaries/ldoce5/entries?apikey=sMtEeSSleFLGO4ijUT8ATAwHfuPEJYLg&limit=1&part_of_speech=noun%2Cadjective%2Cverb&headword=",
 string_response = "I'm afraid I don't understand. I'm sorry!",
 string_manywords = "My Bad!. I am still young. I can only define single words for now.",
 string_definition = "Defintion:\n",
