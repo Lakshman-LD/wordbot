@@ -19,10 +19,10 @@ getDefinition = function(word,replyJson, callback) {
 	console.log("Finding definition of " + word);
 	request(dictionary_main + word, function(error, response, body) {
 		var def = getDefintionFromDictResponse(body);
-		console.log(def);
+		//console.log(def);
 		if(def) {
 			replyJson.content.text = def;
-			console.log(JSON.stringify(replyJson));
+			//console.log(JSON.stringify(replyJson));
 			sendLineResponseMessage(replyJson,callback);
 		} else {
 			res.send(string_absentword);
