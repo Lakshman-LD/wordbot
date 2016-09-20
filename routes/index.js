@@ -66,8 +66,8 @@ router.post('/line', function(req, res, next) {
   console.log(req.body);
   var replyJson = {
 	  	to: [],
-	  	toChannel: req.body.fromChannel;
-	  	eventType: req.body.eventType;
+	  	toChannel: req.body.fromChannel,
+	  	eventType: req.body.eventType,
 	  	content: {
 	  		contentType:1,
 	  		toType:1
