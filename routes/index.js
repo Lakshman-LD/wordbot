@@ -94,7 +94,7 @@ router.post('/line', function(req, res, next) {
  if(querytxt) {
  	var query = querytxt.split(" ");
  	if(query.length > 1) {
- 		if (query[0].toLowercase() === "define") {
+ 		if (query[0].toLowerCase() === "define") {
  			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), replyJson, function() {
 				res.sendStatus(200);
 			});
