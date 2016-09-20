@@ -7,6 +7,7 @@ string_channelid = "1480732716",
 string_channelsecret = "75ba882401bb4c4ae52123e7de5a77b1",
 string_channelmid = "u146be2a42ebbcbf77ba0e172bf54f961",
 string_noresultparam = "No result param in line's request json",
+string_nocontent = "Content, text or from field missing",
 string_errorresponse = "I'm afraid I don't understand. I'm sorry!",
 string_manywords = "My Bad!. I am still young. I can only define single words for now.",
 string_absentword = "Oops! It seems my dictionary does not have that word.",
@@ -67,14 +68,6 @@ sendLineResponseMessage = function(replyJson, callback) {
 /* GET home page. */
 router.post('/line', function(req, res, next) {
   var requestJson, querytext;
-  if(req.body.result) {
-  	var result = req.body.result;
-  	if(result.length > 0) {
-  		requestJson = result[0];
-  	}
-  } else {
-  	console.log(string_noresultparam);
-  }
   var replyJson = {
 	  	to: [],
 	  	toChannel: 1383378250,
@@ -84,26 +77,34 @@ router.post('/line', function(req, res, next) {
 	  		toType:1
 	  	}
   	};
-  // get query text typed by user
-  if(requestJson.content &&  requestJson.content.text) {
-  	replyJson.to[0] = requestJson.content.from;
-	querytxt = requestJson.content.text;
-	console.log(querytxt);
-  }
- // Initialize response to error
- if(querytxt) {
- 	var query = querytxt.split(" ");
- 	if(query.length > 1) {
- 		if (query[0].toLowerCase() === "define") {
- 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), replyJson, function() {
-				res.sendStatus(200);
-			});
- 		}
- 	} else {
- 		res.send(string_errorresponse);
- 	}
- } else {
- 	res.send(string_errorresponse);
- }
+  	if(req.body.result) {
+	  	if(req.body.result.length === 0) {
+	  		console.log(string_noresultparam);
+	  	}
+	}
+	for(i = 0; i < req.body.result.length ; i++) {
+		  // get query text typed by user
+		  var requestJson = req.body.result[i];
+		  if(requestJson.content &&  requestJson.content.text && requestJson.content.from) {
+		  	replyJson.to[0] = requestJson.content.from;
+			var querytxt = requestJson.content.text;
+			console.log(querytxt);
+			var query = querytxt.split(" ");
+		 	if(query.length > 1) {
+		 		if (query[0].toLowerCase() === "define") {
+		 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), replyJson, function() {
+						res.sendStatus(200);
+					});
+		 		}
+		 	} else {
+		 		replyJson.content.text = string_errorresponse;
+		 		sendLineResponseMessage(replyJson, function() {
+					res.sendStatus(200);
+				});
+		 	}
+		  } else {
+		 	console.log(string_nocontent);
+		 }
+	}
 });
 module.exports = router;
