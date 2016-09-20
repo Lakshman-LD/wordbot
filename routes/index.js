@@ -59,7 +59,7 @@ sendLineResponseMessage = function(replyJson, callback) {
 		if(error) {
 			console.log("ERROR: "+error);
 		} else if(body) {
-			console.log("BODY: "+body);
+			console.log("BODY: "+JSON.stringify(body));
 		}
 	    callback();
 	});
@@ -98,7 +98,7 @@ router.post('/line', function(req, res, next) {
  	if(query.length > 1) {
  		if (query[0] === "define") {
  			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), replyJson, function() {
-				res.send(200);
+				res.sendStatus(200);
 			});
  		}
  	} else {
