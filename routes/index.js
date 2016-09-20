@@ -6,12 +6,21 @@ string_response = "I'm afraid I don't understand. I'm sorry!",
 string_manywords = "My Bad!. I am still young. I can only define single words for now.",
 string_definition = "Defintion:\n",
 string_example = "\nExample:\n",
-getDefinition = function(word, callback) {
+getDefinition = function(word,replyJson, callback) {
 	if(word.split(" ").length > 1) {
 		return error_manywords;
 	}
 	console.log("Finding definition of " + word);
-	request(dictionary_main + word, callback);
+	request(dictionary_main + word, function(error, response, body) {
+		var def = getDefintionFromDictResponse(body);
+		console.log(def);
+		if(def) {
+			replyJson.content.text = def;
+			sendLineResponseMessage(replyJson,callback);
+		} else {
+			//res.send(error_response);
+		}
+	});
 }, 
 getDefintionFromDictResponse = function(body) {
 	var bodyJson = JSON.parse(body);
@@ -29,47 +38,44 @@ getDefintionFromDictResponse = function(body) {
 		return response;
 	}
 },
-sendResponseMessage = function(message, to) {
-	var myJSONObject = {};
-	myJSONObject.to = to;
-	myJSONObject.toChannel = "1383378250";
-	myJSONObject.eventType = "138311608800106203";
+sendLineResponseMessage = function(replyJson, callback) {
 	var content = {};
 	//set content here
 	request({
-	    url: "http://josiahchoi.com/myjson",
+	    url: "https://trialbot-api.line.me/v1/events",
 	    method: "POST",
 	    json: true,
 	    headers: {
-	        "content-type": "application/json; charset=UTF-8",
+	        "content-type": "application/json",
 	        "X-Line-ChannelID": "1480732716",
 			"X-Line-ChannelSecret": "75ba882401bb4c4ae52123e7de5a77b1",
 			"X-Line-Trusted-User-With-ACL": "u146be2a42ebbcbf77ba0e172bf54f961"
 	    },
-	    body: myJSONObject
+	    body: replyJson
 	}, function (error, response, body){
-	    console.log(response);
+		if(error) {
+			console.log("ERROR: "+error);
+		}
+	    callback();
 	});
 };
 
 /* GET home page. */
 router.post('/line', function(req, res, next) {
-	// Below comments to be deleted after testing first branch merge to main
-  // console.log("printing request object");
-  // console.log("Body of request is ");
-  // console.log(req.body.result);
-  // console.log("Request is ");
-  // console.log(req.body.result[0]);
   var requestJson, querytext;
-  // Check if Line Request has result json object
-
-  console.log("y1");
   console.log(req.body);
+  var replyJson = {
+	  	to: [],
+	  	toChannel: req.body.fromChannel;
+	  	eventType: req.body.eventType;
+	  	content: {
+	  		contentType:1,
+	  		toType:1
+	  	}
+  	};
   if(req.body.result) {
-  	console.log("y2");
   	var result = req.body.result;
   	if(result.length > 0) {
-  		console.log("y3");
   		requestJson = result[0];
   		console.log("result" + requestJson);
   	}
@@ -79,7 +85,7 @@ router.post('/line', function(req, res, next) {
 
   // get query text typed by user
   if(requestJson.content &&  requestJson.content.text) {
-  	console.log("y4");
+  	replyJson.to[0] = requestJson.content.from;
 	querytxt = requestJson.content.text;
 	console.log(querytxt);
   }
@@ -87,15 +93,9 @@ router.post('/line', function(req, res, next) {
  if(querytxt) {
  	var query = querytxt.split(" ");
  	if(query.length > 1) {
- 		if (query[0] === "define") {
- 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), function(error, response, body){
-				var def = getDefintionFromDictResponse(body);
-				console.log(def);
-				if(def) {
-					res.send("Defintion");
-				} else {
-					res.send(error_response);
-				}
+ 		if (query[0].toLowercase() === "define") {
+ 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1,replyJson, querytxt.length), function(error, response, body){
+				res.send(200);
 			});
  		}
  	} else {
