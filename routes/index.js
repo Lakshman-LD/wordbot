@@ -68,15 +68,6 @@ sendLineResponseMessage = function(replyJson, callback) {
 /* GET home page. */
 router.post('/line', function(req, res, next) {
   var requestJson, querytext;
-  var replyJson = {
-	  	to: [],
-	  	toChannel: req.body.fromChannel,
-	  	eventType: req.body.eventType,
-	  	content: {
-	  		contentType:1,
-	  		toType:1
-	  	}
-  	};
   if(req.body.result) {
   	var result = req.body.result;
   	if(result.length > 0) {
@@ -85,7 +76,15 @@ router.post('/line', function(req, res, next) {
   } else {
   	console.log("No result param in line's request json");
   }
-
+  var replyJson = {
+	  	to: [],
+	  	toChannel: requestJson.fromChannel,
+	  	eventType: requestJson.eventType,
+	  	content: {
+	  		contentType:1,
+	  		toType:1
+	  	}
+  	};
   // get query text typed by user
   if(requestJson.content &&  requestJson.content.text) {
   	replyJson.to[0] = requestJson.content.from;
