@@ -79,7 +79,7 @@ router.post('/line', function(req, res, next) {
   var replyJson = {
 	  	to: [],
 	  	toChannel: requestJson.fromChannel,
-	  	eventType: "140177271400161403",
+	  	eventType: +requestJson.eventType,
 	  	content: {
 	  		contentType:1,
 	  		toType:1
