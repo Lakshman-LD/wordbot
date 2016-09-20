@@ -16,6 +16,7 @@ getDefinition = function(word,replyJson, callback) {
 		console.log(def);
 		if(def) {
 			replyJson.content.text = def;
+			console.log(JSON.stringify(replyjson);
 			sendLineResponseMessage(replyJson,callback);
 		} else {
 			//res.send(error_response);
@@ -55,6 +56,8 @@ sendLineResponseMessage = function(replyJson, callback) {
 	}, function (error, response, body){
 		if(error) {
 			console.log("ERROR: "+error);
+		} else if(body) {
+			console.log("BODY: "+body);
 		}
 	    callback();
 	});
@@ -63,7 +66,6 @@ sendLineResponseMessage = function(replyJson, callback) {
 /* GET home page. */
 router.post('/line', function(req, res, next) {
   var requestJson, querytext;
-  console.log(req.body);
   var replyJson = {
 	  	to: [],
 	  	toChannel: req.body.fromChannel,
