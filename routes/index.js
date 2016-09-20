@@ -7,6 +7,7 @@ string_manywords = "My Bad!. I am still young. I can only define single words fo
 string_definition = "Defintion:\n",
 string_example = "\nExample:\n",
 getDefinition = function(word,replyJson, callback) {
+	console.log("y3");
 	if(word.split(" ").length > 1) {
 		return error_manywords;
 	}
@@ -24,6 +25,7 @@ getDefinition = function(word,replyJson, callback) {
 	});
 }, 
 getDefintionFromDictResponse = function(body) {
+	console.log("y4");
 	var bodyJson = JSON.parse(body);
 	if(bodyJson.results && bodyJson.results.length > 0 && bodyJson.results[0].senses && bodyJson.results[0].senses.length > 0) {
 		console.log("y5");
@@ -79,7 +81,6 @@ router.post('/line', function(req, res, next) {
   	var result = req.body.result;
   	if(result.length > 0) {
   		requestJson = result[0];
-  		console.log("result" + requestJson);
   	}
   } else {
   	console.log("No result param in line's request json");
@@ -96,7 +97,7 @@ router.post('/line', function(req, res, next) {
  	var query = querytxt.split(" ");
  	if(query.length > 1) {
  		if (query[0].toLowercase() === "define") {
- 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1,replyJson, querytxt.length), function(error, response, body){
+ 			getDefinition(querytxt.substring(querytxt.indexOf(" ") + 1, querytxt.length), replyJson, function(){
 				res.send(200);
 			});
  		}
