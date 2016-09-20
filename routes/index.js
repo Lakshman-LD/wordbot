@@ -17,7 +17,7 @@ getDefinition = function(word,replyJson, callback) {
 		console.log(def);
 		if(def) {
 			replyJson.content.text = def;
-			console.log(JSON.stringify(replyjson));
+			console.log(JSON.stringify(replyJson));
 			sendLineResponseMessage(replyJson,callback);
 		} else {
 			//res.send(error_response);
